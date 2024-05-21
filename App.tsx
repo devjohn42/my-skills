@@ -5,7 +5,7 @@ import Home from './app/pages/Home';
 export default function App() {
   return (
     <>
-      <StatusBar barStyle={'light-content'} backgroundColor='#af0' />
+      <StatusBar backgroundColor='#af0' />
       <Home />
     </>
   );

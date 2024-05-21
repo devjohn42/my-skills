@@ -4,13 +4,23 @@ import { StyleSheet, Text, View, Platform, FlatList } from 'react-native';
 import Button from '../components/Button';
 import SkillCard from '../components/SkillCard';
 
-export default function Home() {
-  const [newSkill, setNewSkill] = useState('');
-  const [mySkills, setMySkills] = useState([]);
-  const [gretting, setGretting] = useState('');
+interface SkillProps {
+  id: string;
+  name: string;
+  level?: Date;
+}
 
-  const handleAddNewSkill = () => {
-    setMySkills([...mySkills, newSkill]);
+export default function Home() {
+  const [newSkill, setNewSkill] = useState<string>('');
+  const [mySkills, setMySkills] = useState<SkillProps[]>([]);
+  const [gretting, setGretting] = useState<string>('');
+
+  const handleAddNewSkill = (): void => {
+    const skillData = {
+      id: String(new Date().getTime()),
+      name: newSkill
+    };
+    setMySkills([...mySkills, skillData]);
   };
 
   useEffect(() => {
@@ -38,7 +48,7 @@ export default function Home() {
         onChangeText={setNewSkill}
       />
 
-      <Button onPress={handleAddNewSkill} />
+      <Button title='Add' onPress={handleAddNewSkill} />
 
       <Text style={[styles.title, { marginVertical: 42, fontWeight: '500' }]}>
         {' '}
@@ -47,8 +57,8 @@ export default function Home() {
 
       <FlatList
         data={mySkills}
-        keyExtractor={(item) => item}
-        renderItem={({ item, index }) => <SkillCard skill={item} key={index} />}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <SkillCard skill={item.name} key={item.id} />}
       />
     </View>
   );
